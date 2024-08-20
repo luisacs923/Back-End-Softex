@@ -1,4 +1,4 @@
-import { Organizacao, readOrganizacao, eventosOrganizacao } from "./Entidades/Organizacao.js";
+import { Organizacao, readOrganizacao, eventosOrganizacao } from "./entity/Organizacao.js";
 
 console.log("Ola mundo!");
 
