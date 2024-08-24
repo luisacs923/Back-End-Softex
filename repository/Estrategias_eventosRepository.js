@@ -6,14 +6,14 @@ async create(Estrategias_eventos) {
     try{
      const [results,fields] = await connection.query('INSERT INTO Estrategias_eventos (ID_estrategia,ID_evento) VALUES (?,?);',
     [Estrategias_eventos.ID_estrategia,Estrategias_eventos.ID_evento]);
-    console.log(results, fields);
+    console.log(results);
     } catch (error){
         throw new Error (error);
     }
 
 }
 
-async update(id, Estrategia_eventos) { 
+async update(id, Estrategias_eventos) { 
     try{
      const [results, fields] = await connection.query('UPDATE Estrategias_eventos SET ID_estrategia = ? , ID_evento = ?  WHERE ID = ?',
     [Estrategias_eventos.ID_estrategia,Estrategias_eventos.ID_evento, id]);
@@ -22,7 +22,7 @@ async update(id, Estrategia_eventos) {
         throw new Error(error);
     }
 }
-async list(){ // retorna todas as organizacoes
+async list(){ 
     try{
         const [results,fields] = await connection.query('SELECT * FROM Estrategias_eventos');
         return results;
@@ -36,7 +36,7 @@ async read(id){
     try {
         const [results, fields] = await connection.query('SELECT * FROM Estrategias_eventos WHERE ID = ?', [id]);
         const Est_eventos = results[0];
-        return new Organizacao(Est_eventos.ID_estrategia, Est_eventos.ID_evento, id);
+        return new Estrategias_eventos(Est_eventos.ID_estrategia, Est_eventos.ID_evento);
       
     } catch (error) {
         console.log(error);
@@ -52,16 +52,4 @@ async delete(id){
     }
 }
 
-
-
-
-
-
-
 }
-
-
-
-
-
-

@@ -43,10 +43,12 @@ async read(id){
     }
 }
 
+
+
 async delete(id){
     try{
         const [results,fields] = await connection.query('DELETE FROM Organizacao WHERE ID = ?',[id]);
-        console.log(results, fields);
+        console.log(results);
     } catch(error){
         console.log(error);
     }

@@ -9,7 +9,7 @@ export class Organizacaoservice{
 
     async  createOrganizacao(cnpj, responsavel, nome_organizacao, localizacao_organizacao){
         if(!(cnpj || responsavel || nome_organizacao || localizacao_organizacao)){
-            console.log("ERROR!!!: dados incompletos!")
+            console.log("ERRO: dados incompletos!")
         }else{
             
             try{
@@ -28,7 +28,7 @@ export class Organizacaoservice{
             console.log('ERRO: O id não pode ser vazio!');
             } else {
                 try {
-                const organizacao = await this.organizacao.read(id);
+                const organizacao = await this.organizacaorepository.read(id);
                 return organizacao;
                 } catch(error){
                 console.log("ERRO: ", error);
