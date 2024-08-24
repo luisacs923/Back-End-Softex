@@ -1,9 +1,11 @@
 import { Evento } from "../entity/Evento.js";
+import { Estrategias_eventosRepository } from "../repository/Estrategias_eventosRepository.js";
 import { EventoRepository } from "../repository/Eventorepository.js";
 
 export class EventoService{
     constructor(){
         this.eventorepository = new EventoRepository();
+        this.estrategiaeventorepository = new Estrategias_eventosRepository();
     }
 
     async createEvento(nome_evento,descricao_evento,data_evento,localizacao_evento,ID_organizacao){
@@ -65,15 +67,27 @@ export class EventoService{
         }
     }
 
-    async readOrganization(ID){
-        if(ID ==="" || !ID){
-            console.log('ERRO: O id não pode ser vazio!')
+    async readInfofromEstrategia(ID_estrategia){
+        if(ID_estrategia === '' || !ID_estrategia){
+            console.log('ERRO: o id não pode ser vazio');
         } else {
             try{
-                const eventoOrgs = await this.eventorepository.readEventoOrganizacao(ID);
-                return eventoOrgs;
+                const eventoEst = await this.estrategiaeventorepository.infoFromEstrategia(ID_estrategia);
+                return eventoEst;
+                } catch(error){
+                console.log(error);
+            }
+        }
+    }
+
+    async associateEstrategias( ID_evento, estrategias){
+        if(ID_evento === '' || !ID_evento){
+            console.log('ERRO: o id não pode ser vazio');
+        } else {
+            try{
+                await this.estrategiaeventorepository.updateEventoEstrategia(ID_evento,estrategias);
             } catch(error){
-                console.log(error)
+                console.log(error);
             }
         }
     }

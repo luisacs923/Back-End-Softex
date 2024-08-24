@@ -52,7 +52,7 @@ export class Organizacaoservice{
             try {
             await this.organizacaorepository.update(id, organizacao);
             } catch (error) {
-            throw new Error(error);
+                console.log("ERRO: ", error);
             }
         }
     }
@@ -65,6 +65,19 @@ export class Organizacaoservice{
             await this.organizacaorepository.delete(id);
             } catch(error) {
             console.log("ERRO: ", error);
+            }
+        }
+    }
+
+    async readAllFromOrganizacao(id_organizacao){
+        if( id_organizacao === '' || !id_organizacao){
+            console.log('ERRO: O id não pode ser vazio!');
+        } else {
+            try {
+                const organizacaoInfo = await this.organizacaorepository.readInfoOrganizacao(id_organizacao);
+                return organizacaoInfo;
+            } catch (error) {
+                console.log("ERRO: ", error);
             }
         }
     }

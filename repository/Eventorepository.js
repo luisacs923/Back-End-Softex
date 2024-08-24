@@ -44,14 +44,6 @@ export class EventoRepository{
         }
     }
 
-    async readEventoOrganizacao(){
-        try{
-            const [results, fields] = await connection.query(' SELECT Organizacao.nome_organizacao , Evento.* FROM Organizacao INNER JOIN Evento ON Organizacao.ID = Evento.ID_organizacao')
-            return results;
-        } catch(error){
-            console.log(error);
-        }
-    }
 
     async delete(id){
         try{

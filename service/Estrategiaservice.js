@@ -1,9 +1,11 @@
 import { Estrategia } from "../entity/Estrategia.js";
 import { EstrategiaRepository } from "../repository/Estrategiarepository.js";
+import { Estrategias_eventosRepository } from "../repository/Estrategias_eventosRepository.js";
 
 export class Estrategiaservice{
     constructor(){
         this.estrategiarepository = new EstrategiaRepository();
+        this.estrategiaeventorepository = new Estrategias_eventosRepository();
     }
 
     async createEstrategia(descricao_estrategia,tipo_estrategia,efetividade){
@@ -66,4 +68,18 @@ export class Estrategiaservice{
             }
         }
     }
+
+    async readEstrategiaFromEvento(ID_evento){
+        if(ID_evento === '' || !ID_evento){
+            console.log('ERRO: o id não pode ser vazio');
+        } else {
+            try {
+                const estrategias = await this.estrategiaeventorepository.estrFromEven(ID_evento);
+                return estrategias;
+            } catch (error){
+                console.log("ERRO: ", error)
+            }
+        }
+    }
+
 }

@@ -8,7 +8,7 @@ async create(organizacao) {
     [organizacao.cnpj, organizacao.responsavel, organizacao.nome_organizacao, organizacao.localizacao_organizacao]);
     console.log(results, fields);
     } catch (error){
-        throw new Error (error);
+        console.log(error);
     }
 
 }
@@ -19,7 +19,7 @@ async update(id, organizacao) {
     [organizacao.cnpj, organizacao.responsavel, organizacao.nome_organizacao, organizacao.localizacao_organizacao, id]);
      console.log(results, fields);
     } catch(error){
-        throw new Error(error);
+        console.log(error);
     }
 }
 async list(){ // retorna todas as organizacoes
@@ -43,7 +43,34 @@ async read(id){
     }
 }
 
-
+async readInfoOrganizacao(ID){
+    try{
+        const [results, fields] = await connection.query(`
+    SELECT
+        Organizacao.ID AS id_organizacao,
+        Organizacao.cnpj,
+        Organizacao.nome_organizacao,
+        Organizacao.responsavel,
+        Organizacao.localizacao_organizacao,
+        Evento.ID AS id_evento,
+        Evento.nome_evento,
+        Evento.descricao_evento,
+        Evento.data_evento,
+        Evento.localizacao_evento,
+        Estrategia.ID AS id_estrategia,
+        Estrategia.descricao_estrategia,
+        Estrategia.tipo_estrategia,
+        Estrategia.Efetividade
+    FROM Organizacao
+        INNER JOIN Evento ON Organizacao.ID = Evento.ID_organizacao
+        INNER JOIN Estrategias_eventos ON Evento.ID = Estrategias_eventos.ID_evento
+        INNER JOIN Estrategia ON Estrategias_eventos.ID_estrategia = Estrategia.ID 
+    WHERE Organizacao.ID = ?`,[ID])
+        return results;
+    } catch(error){
+        console.log(error);
+    }
+}
 
 async delete(id){
     try{
