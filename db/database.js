@@ -5,7 +5,7 @@ import MySqlConfig from './MySqlConfig.js';
 async function createDatabaseConnection() {
     try {
         const connection = await mysql.createConnection(MySqlConfig);
-        console.log('Conexão efetuada com sucesso!');
+        console.log('Conexão com o mysql efetuada com sucesso!');
         return connection;
     } catch (error) {
         console.log(`ERRO! :${error.stack}`);

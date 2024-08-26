@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.5/axios.min.js"></script>
+    <title>teste</title>
+</head>
+<body>
+    <button id="btn">clica</button>
+
+
+
+    <script>
+        let btn  = document.getElementById('btn');
+
+        btn.addEventListener('click', ()=>{
+            axios.get('http://localhost:3000/organizacao/busca')
+            .then(response =>{
+                if(response.status === 200 || response.status === '200'){
+                    return response.data;
+                }
+            })
+            .then(dados=>[
+                console.log(dados)
+            ])
+        })
+
+    </script>
+</body>
+</html>

@@ -36,7 +36,11 @@ async read(id){
     try {
         const [results, fields] = await connection.query('SELECT * FROM Organizacao WHERE ID = ?', [id]);
         const organizacao = results[0];
-        return new Organizacao(organizacao.cnpj, organizacao.responsavel, organizacao.nome_organizacao, organizacao.localizacao_organizacao, organizacao.ID);
+        if(organizacao === undefined){
+            return null;
+        }else{
+            return new Organizacao(organizacao.cnpj, organizacao.responsavel, organizacao.nome_organizacao, organizacao.localizacao_organizacao, organizacao.ID);
+        }
       
     } catch (error) {
         console.log(error);
