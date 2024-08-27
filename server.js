@@ -9,6 +9,8 @@ import response from './service/response.js';
 
 //Rotas importadas
 import OrganizacaoRoute from './routes/OrganizacaoRoute.js';
+import EventoRoute from './routes/EventoRoute.js';
+import EstrategiaRoute from './routes/EstrategiaRoute.js';
 
 //Checagem da API
 const API_AVAILABLE = true;
@@ -31,14 +33,14 @@ app.use(express.urlencoded({extended:true}));
 
 
 //Rotas
-app.use('/organizacao' ,OrganizacaoRoute)
-// app.use()
-// app.use()
+app.use('/organizacao' ,OrganizacaoRoute);
+app.use('/evento' , EventoRoute);
+app.use('/estrategia' , EstrategiaRoute);
 
 
 //Caso a rota não exista
 app.use((req,res)=>{
-    res.send('Rota não encontrada!');
+    res.status(404).send('Rota não encontrada!');
 })
 
 

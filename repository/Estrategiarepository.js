@@ -36,7 +36,11 @@ export class EstrategiaRepository{
         try {
             const [results, fields] = await connection.query('SELECT * FROM Estrategia WHERE ID = ?', [id]);
             const estrategia = results[0];
-            return new Estrategia(estrategia.descricao_estrategia , estrategia.tipo_estrategia , estrategia.efetividade, estrategia.ID);
+            if(estrategia === undefined ){
+                return null;
+            }else{
+                return new Estrategia(estrategia.descricao_estrategia , estrategia.tipo_estrategia , estrategia.efetividade, estrategia.ID);
+            }
         
         } catch (error) {
             console.log(error);

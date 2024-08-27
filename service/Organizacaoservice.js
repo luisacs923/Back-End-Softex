@@ -9,13 +9,12 @@ export class Organizacaoservice{
 
     async  createOrganizacao(cnpj, responsavel, nome_organizacao, localizacao_organizacao){
         if(!(cnpj || responsavel || nome_organizacao || localizacao_organizacao)){
-            console.log("ERRO: dados incompletos!")
+            console.log("ERRO: dados incompletos!");
         }else{
             
             try{
                 const organizacao = new Organizacao(cnpj, responsavel, nome_organizacao, localizacao_organizacao);
-                const [results, fields] = await this.organizacaorepository.create(organizacao)
-                console.log(results);
+                const results = await this.organizacaorepository.create(organizacao);
             }catch(error){
                 console.log("ERRO: ", error);
             }
@@ -47,7 +46,7 @@ export class Organizacaoservice{
 
     async updateOrganizacao(id, organizacao) {
         if(!(id || organizacao) || (id === '' || organizacao === '')){
-            console.log('ERRO: o id ou campos da Organizacao não podem ser vazios!')
+            console.log('ERRO: o id ou campos da Organizacao não podem ser vazios!');
         } else {
             try {
             await this.organizacaorepository.update(id, organizacao);

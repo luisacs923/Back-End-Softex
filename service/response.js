@@ -1,9 +1,9 @@
-function response(sts,msg,data){
+function response(Sts,Msg,Data){
     return{
-        status:sts,
-        message:msg,
-        data:data,
-        timeStramp : new Date().getTime()
+        status:Sts,
+        message:Msg,
+        data:Data,
+        timeStamp : new Date().getTime()
     }
 }
 

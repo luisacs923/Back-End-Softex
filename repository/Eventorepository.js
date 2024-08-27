@@ -37,7 +37,11 @@ export class EventoRepository{
         try {
             const [results, fields] = await connection.query('SELECT * FROM Evento WHERE ID = ?', [id]);
             const evento = results[0];
-            return new Evento(evento.nome_evento, evento.descricao_evento, evento.data_evento,evento.localizacao_evento,evento.ID_organizacao, id);
+            if(evento === undefined){
+                return null
+            }else{
+                return new Evento(evento.nome_evento, evento.descricao_evento, evento.data_evento,evento.localizacao_evento,evento.ID_organizacao, id);
+            }
         
         } catch (error) {
             console.log(error);

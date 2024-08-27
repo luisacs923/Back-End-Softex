@@ -6,7 +6,7 @@ async create(organizacao) {
     try{
      const [results,fields] = await connection.query('INSERT INTO Organizacao (cnpj, responsavel, nome_organizacao, localizacao_organizacao ) VALUES (?,?,?,?);',
     [organizacao.cnpj, organizacao.responsavel, organizacao.nome_organizacao, organizacao.localizacao_organizacao]);
-    console.log(results, fields);
+    console.log(results);
     } catch (error){
         console.log(error);
     }
@@ -17,7 +17,6 @@ async update(id, organizacao) {
     try{
      const [results, fields] = await connection.query('UPDATE Organizacao SET cnpj = ?, responsavel = ?, nome_organizacao = ?, localizacao_organizacao = ? WHERE ID = ?',
     [organizacao.cnpj, organizacao.responsavel, organizacao.nome_organizacao, organizacao.localizacao_organizacao, id]);
-     console.log(results, fields);
     } catch(error){
         console.log(error);
     }
@@ -69,8 +68,13 @@ async readInfoOrganizacao(ID){
         INNER JOIN Evento ON Organizacao.ID = Evento.ID_organizacao
         INNER JOIN Estrategias_eventos ON Evento.ID = Estrategias_eventos.ID_evento
         INNER JOIN Estrategia ON Estrategias_eventos.ID_estrategia = Estrategia.ID 
-    WHERE Organizacao.ID = ?`,[ID])
-        return results;
+    WHERE Organizacao.ID = ?`,[ID]);
+        const infoOrganizacao = results[0];
+        if(infoOrganizacao === undefined){
+            return null;
+        }else{
+            return results;
+        }
     } catch(error){
         console.log(error);
     }

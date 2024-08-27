@@ -13,7 +13,6 @@ export class Estrategias_eventosRepository{
 
     }
 
-
     async list(){ 
         try{
             const [results,fields] = await connection.query('SELECT * FROM Estrategias_eventos');
@@ -46,7 +45,12 @@ export class Estrategias_eventosRepository{
 
     async estrFromEven(ID_evento){
         try{
-            const [results,fields] = await connection.query('SELECT * FROM Estrategia INNER JOIN Estrategias_eventos ON Estrategia.ID = Estrategias_eventos.ID_estrategia WHERE ID_evento = ?',[ID_evento]);
+            const [results,fields] = await connection.query(`
+                SELECT * FROM Estrategia 
+                INNER JOIN 
+                    Estrategias_eventos ON Estrategia.ID = Estrategias_eventos.ID_estrategia 
+                WHERE ID_evento = ?`,[ID_evento]);
+                
             return results
         } catch(error){
             console.log(error);
@@ -65,7 +69,13 @@ export class Estrategias_eventosRepository{
                     JOIN Evento ON Evento.ID = Estrategias_eventos.ID_evento
                     JOIN Organizacao ON Organizacao.ID = Evento.ID_organizacao
                 WHERE Estrategias_eventos.ID_estrategia = ? `, [ID_estrategia]);
-            return results
+                const infoFromEstrategia = results[0];
+                
+                if(infoFromEstrategia === undefined){
+                    return null;
+                }else{
+                    return results
+                }
         } catch(error){
             console.log("ERRO: ", error)
         }
@@ -80,7 +90,7 @@ export class Estrategias_eventosRepository{
                 await connection.query('INSERT INTO Estrategias_eventos (ID_estrategia,ID_evento) VALUES (?,?);',[e,ID_evento])
             });
         } catch(error){
-            console.log(error)
+            console.log(error);
         }
     }
     

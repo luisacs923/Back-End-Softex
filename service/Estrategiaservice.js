@@ -77,7 +77,7 @@ export class Estrategiaservice{
                 const estrategias = await this.estrategiaeventorepository.estrFromEven(ID_evento);
                 return estrategias;
             } catch (error){
-                console.log("ERRO: ", error)
+                console.log("ERRO: ", error);
             }
         }
     }
