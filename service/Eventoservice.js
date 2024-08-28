@@ -43,6 +43,20 @@ export class EventoService{
         }
     }
 
+    async listEventoPorOrganizacao(ID_organizacao) {
+        try {
+            const eventoList = await this.eventorepository.listByOrganizacao(ID_organizacao);
+            const eventoListComEstrategias = await Promise.all(eventoList.map(async evento => {
+                const estrategias = await this.estrategiaeventorepository.estrFromEven(evento.ID)
+                return {...evento, estrategias}
+            }))
+            return eventoListComEstrategias;
+        } catch(error) {
+            console.log("ERRO: ", error);
+            // throw new Error("ERRO: " + error);
+        }
+    }
+
     async updateEvento(id, evento) {
         if(!(id || evento) || (id === '' || evento === '')){
             console.log('ERRO: o id ou campos do Evento não podem ser vazios!')

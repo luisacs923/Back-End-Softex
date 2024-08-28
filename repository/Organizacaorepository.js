@@ -63,7 +63,7 @@ async readInfoOrganizacao(ID){
         Estrategia.ID AS id_estrategia,
         Estrategia.descricao_estrategia,
         Estrategia.tipo_estrategia,
-        Estrategia.Efetividade
+        Estrategia.efetividade
     FROM Organizacao
         INNER JOIN Evento ON Organizacao.ID = Evento.ID_organizacao
         INNER JOIN Estrategias_eventos ON Evento.ID = Estrategias_eventos.ID_evento

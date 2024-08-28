@@ -27,7 +27,7 @@ router.post('/cadastro',async(req,res)=>{
         return;
     };
 
-    //Caso passar pelas duas verificações os dados serão inseridos através do organização service.
+    //Caso passar pelas duas verificações os dados serão inseridos através do estrategia service.
 
     try{
         const  results  = await estrategiaService.createEstrategia(descricao_estrategia, tipo_estrategia, efetividade);
@@ -72,14 +72,14 @@ router.get('/busca/:id',async(req,res)=>{
     }
 });
 
-//Listar uma estrategia referente a um evento
+//Listar estrategias referente a um evento
 router.get('/busca/estrategia-from-evento/:id',async(req,res)=>{
     const id = req.params.id;
     try{
         let results = await estrategiaService.readEstrategiaFromEvento(id);
-        if(results === null){
+        if(results.length === 0){
             
-            res.status(404).json(response('404','O ID da estrategia não consta no banco de dados!',null));
+            res.status(404).json(response('404','O ID do Evento não está relacionado com nenhuma Estratégia!',null));
         }else{
             res.json(response('200','Dados visualizados com sucesso!', results));
 
@@ -90,22 +90,22 @@ router.get('/busca/estrategia-from-evento/:id',async(req,res)=>{
     }
 });
 
-router.get('/busca/estrategia-from-evento/:id',async(req,res)=>{
-    const id = req.params.id;
-    try{
-        let results = await estrategiaService.readEstrategiaFromEvento(id);
-        if(results === null){
+// router.get('/busca/estrategia-from-evento/:id',async(req,res)=>{
+//     const id = req.params.id;
+//     try{
+//         let results = await estrategiaService.readEstrategiaFromEvento(id);
+//         if(results === null){
             
-            res.status(404).json(response('404','O ID da estrategia não consta no banco de dados!',null));
-        }else{
-            res.json(response('200','Dados visualizados com sucesso!', results));
+//             res.status(404).json(response('404','O ID da estrategia não consta no banco de dados!',null));
+//         }else{
+//             res.json(response('200','Dados visualizados com sucesso!', results));
 
-        }
-    }catch(error){
-        console.log(error);
-        res.status(500).json(response('500','Erro inesperado',null));
-    }
-});
+//         }
+//     }catch(error){
+//         console.log(error);
+//         res.status(500).json(response('500','Erro inesperado',null));
+//     }
+// });
 
 
 
@@ -131,7 +131,7 @@ router.put('/atualizar/:id',async(req,res)=>{
 
     try{ 
         const estrategia = await estrategiaService.readEstrategia(id_estrategia);
-        if (organizacao === null) {
+        if (estrategia === null) {
             res.status(404).json(response('404','Não foi possível atualizar pois, o ID da estratégia não existe!!! ', null));
 
         }else{
@@ -142,13 +142,13 @@ router.put('/atualizar/:id',async(req,res)=>{
                 //no corpo da requisição (pode vir apenas uma propriedade ou vários ou todas!)
 
                 if(descricao_estrategia){
-                    organizacaoUpdated.descricao_estrategia = descricao_estrategia;
+                    estrategiaUpdated.descricao_estrategia = descricao_estrategia;
                 } 
                 if(tipo_estrategia){
-                    organizacaoUpdated.tipo_estrategia = tipo_estrategia;
+                    estrategiaUpdated.tipo_estrategia = tipo_estrategia;
                 } 
                 if(efetividade){
-                    organizacaoUpdated.efetividade = efetividade;
+                    estrategiaUpdated.efetividade = efetividade;
                 }
 
 

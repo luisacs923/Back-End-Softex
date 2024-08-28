@@ -33,6 +33,15 @@ export class EventoRepository{
 
     }
 
+    async listByOrganizacao(ID_organizacao) {
+        try{
+            const [results,fields] = await connection.query('SELECT * FROM Evento WHERE ID_organizacao = ?', [ID_organizacao]);
+            return results;
+        }catch(error){
+            console.log(error);
+        }
+    }
+
     async read(id){
         try {
             const [results, fields] = await connection.query('SELECT * FROM Evento WHERE ID = ?', [id]);

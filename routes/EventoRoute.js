@@ -28,7 +28,7 @@ router.post('/cadastro',async (req,res) =>{
         return;
     };
 
-    //Caso passar pelas duas verificações os dados serão inseridos através do organização service.
+    //Caso passar pelas duas verificações os dados serão inseridos através do evento service.
 
     try{
         const  results  = await eventoService.createEvento(nome_evento,descricao_evento,data_evento,localizacao_evento,ID_organizacao);
@@ -48,7 +48,7 @@ router.post('/cadastro',async (req,res) =>{
 router.get('/busca', async(req,res)=>{
     try{
         const results = await eventoService.listEvento();
-        res.status(200).json(response('200','Dados inseridos com sucesso!',results));
+        res.status(200).json(response('200','Dados visualizados com sucesso!',results));
     }catch(error){
         console.log(error);
         res.status(500).json(response('500','Erro inesperado',null));
@@ -75,13 +75,13 @@ router.get('/busca/:id', async(req,res)=>{
 })
 
 
-//Listar todas as estrategias associadas a eventos.
+//Listar todas os eventos associados a uma estratégia.
 router.get('/busca/info-from-estrategia/:id',async(req,res)=>{
     const id = req.params.id; 
     try{
         const results  = await eventoService.readInfofromEstrategia(id);
         if(results === null){
-            res.status(404).json(response('404','O ID do evento não consta no banco de dados!',null));
+            res.status(404).json(response('404','O ID da estrategia não consta no banco de dados!',null));
 
         }else{
             res.status(200).json(response('200','Dados visualizados com sucesso!', results));
@@ -169,5 +169,34 @@ router.delete('/deletar/:id', async(req,res)=>{
 
 
 //Faltou apenas o associate que depois vejo --_-- 
+//Associar Evento a Uma ou Mais Estrategias
+// POST /evento/associar/:id_evento -> Body: { estrategias: [id_estrategia1, id_estrategia2, ...]}
+router.post('/associar/:id_evento', async(req, res) => {
+    const id_evento = req.params.id_evento;
+    const { estrategias } = req.body
+    try {
+        if (!estrategias) {
+            res.status(400).json(response('400', 'Estrategias nao foram enviadas!', null));
+        } else {
+            await eventoService.associateEstrategias(id_evento, estrategias);
+            res.status(200).json(response('200', 'Estrategias associadas com sucesso!', null));
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(response('500','Erro inesperado',null));
+    }
+})
+
+// GET /evento/busca/organizacao/:id_organizacao
+router.get('/busca/organizacao/:id_organizacao', async (req, res) => {
+    const id_organizacao = req.params.id_organizacao;
+    try {
+        const results = await eventoService.listEventoPorOrganizacao(id_organizacao);
+        res.json(response('200', 'Xalala', results));
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(response('500','Erro inesperado',null));
+    }
+})
 
 export default router;

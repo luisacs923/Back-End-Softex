@@ -33,9 +33,9 @@ app.use(express.urlencoded({extended:true}));
 
 
 //Rotas
-app.use('/organizacao' ,OrganizacaoRoute);
-app.use('/evento' , EventoRoute);
-app.use('/estrategia' , EstrategiaRoute);
+app.use('/organizacoes' ,OrganizacaoRoute);
+app.use('/eventos' , EventoRoute);
+app.use('/estrategias' , EstrategiaRoute);
 
 
 //Caso a rota não exista
