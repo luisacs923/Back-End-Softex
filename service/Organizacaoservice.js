@@ -49,21 +49,23 @@ export class Organizacaoservice{
             console.log('ERRO: o id ou campos da Organizacao não podem ser vazios!');
         } else {
             try {
-            await this.organizacaorepository.update(id, organizacao);
+                await this.organizacaorepository.update(id, organizacao);
             } catch (error) {
                 console.log("ERRO: ", error);
             }
         }
     }
 
-    async deleteOrganizacao(id) {
-    if( id === '' || !id ){
-        console.log('ERRO: O id não pode ser vazio!');
-        } else {
-            try {
-            await this.organizacaorepository.delete(id);
-            } catch(error) {
-            console.log("ERRO: ", error);
+    async deleteOrganizacao(id){
+        if( id === '' || !id ){
+            console.log('ERRO: O id não pode ser vazio!');
+
+        }else{
+            try{
+                const deleteOrganizacao = await this.organizacaorepository.delete(id);
+                return deleteOrganizacao;
+            }catch(error){
+                console.log("ERRO: ", error);
             }
         }
     }

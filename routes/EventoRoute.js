@@ -28,7 +28,7 @@ router.post('/cadastro',async (req,res) =>{
         return;
     };
 
-    //Caso passar pelas duas verificações os dados serão inseridos através do organização service.
+    //Caso passar pelas duas verificações os dados serão inseridos através do evento service.
 
     try{
         const  results  = await eventoService.createEvento(nome_evento,descricao_evento,data_evento,localizacao_evento,ID_organizacao);
@@ -108,7 +108,7 @@ router.put('/atualizar/:id',async(req,res)=>{
 
     //Verificação se o corpo da requisição está vazio.
     if(Object.keys(update__data).length===0){
-        res.status(422).json(response('422','ERROR! Dados no corpo da requisição vazios, não será possível atualizar', null));
+        res.status(422).json(response('422','ERROR! Dados vazios no corpo da requisição, não será possível atualizar', null));
         return;
     };
 
@@ -118,11 +118,7 @@ router.put('/atualizar/:id',async(req,res)=>{
             res.status(404).json(response('404','Não foi possível atualizar pois o ID do evento não existe!!! ', null));
 
         }else{
-                //Pegando tudo com o spread do que retorna do método readEvento
                 const eventoUpdated = { ...evento};
-
-                //Verificações para inserir atribuições dinâmicas de acordo com o que vai vim de novo
-                //no corpo da requisição (pode vir apenas uma propriedade ou vários ou todas!)
 
                 if(nome_evento){
                     eventoUpdated.nome_evento = nome_evento;
@@ -154,13 +150,17 @@ router.put('/atualizar/:id',async(req,res)=>{
 })
 
 
-
 //Delete
 router.delete('/deletar/:id', async(req,res)=>{
     const id_evento = req.params.id;
     try{
-        await eventoService.deleteEvento(id_evento);
-        res.status(200).json(response('200','Evento deletado com sucesso!',null));
+        const results = await eventoService.deleteEvento(id_evento);
+        console.log(results)
+        if(results === null){
+            res.status(404).json(response('404','O ID do evento não consta no banco de dados!', null));
+        }else{
+            res.status(200).json(response('200','Organização deletada com sucesso!',null));
+        }
     }catch(error){
         console.log(error);
         res.status(500).json(response('500','Erro inesperado',null));
@@ -168,6 +168,6 @@ router.delete('/deletar/:id', async(req,res)=>{
 });
 
 
-//Faltou apenas o associate que depois vejo --_-- 
+
 
 export default router;

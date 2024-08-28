@@ -36,8 +36,8 @@ export class Estrategias_eventosRepository{
 
     async delete(ID_Evento){
         try{
-            const [results,fields] = await connection.query('DELETE FROM Estrategia_eventos WHERE ID_evento = ?',[ID_Evento]);
-            console.log(results, fields);
+            const [results] = await connection.query('DELETE FROM Estrategia_eventos WHERE ID_evento = ?',[ID_Evento]);
+            console.log(results);
         } catch(error){
             console.log(error);
         }
@@ -50,7 +50,6 @@ export class Estrategias_eventosRepository{
                 INNER JOIN 
                     Estrategias_eventos ON Estrategia.ID = Estrategias_eventos.ID_estrategia 
                 WHERE ID_evento = ?`,[ID_evento]);
-                
             return results
         } catch(error){
             console.log(error);

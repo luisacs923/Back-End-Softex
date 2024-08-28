@@ -24,7 +24,7 @@ export class Estrategiaservice{
 
     async readEstrategia(id){
         if(id === '' || !id){
-            console.log('Erro: O id não pode ser vazio!')
+            console.log('Erro: O id não pode ser vazio!');
         } else {
             try{
                 const estrategia = await this.estrategiarepository.read(id);
@@ -60,9 +60,11 @@ export class Estrategiaservice{
     async deleteEstrategia(id){
         if(id === '' || !id) {
             console.log('ERRO: O id não pode ser vazio!');
+            
         } else {
             try{
-                await this.estrategiarepository.delete(id);
+                const deleteResults = await this.estrategiarepository.delete(id);
+                return deleteResults;
             } catch(error){
                 console.log("ERRO: ", error);
             }

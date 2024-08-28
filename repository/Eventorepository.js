@@ -4,10 +4,9 @@ import { Evento } from '../entity/Evento.js';
 export class EventoRepository{
     async create(evento) {
         try{
-        const [results,fields] = await connection.query('INSERT INTO Evento ( nome_evento, descricao_evento, data_evento, localizacao_evento, ID_organizacao ) VALUES (?,?,?,?,?);',
+        const [results] = await connection.query('INSERT INTO Evento ( nome_evento, descricao_evento, data_evento, localizacao_evento, ID_organizacao ) VALUES (?,?,?,?,?);',
         [ evento.nome_evento, evento.descricao_evento, evento.data_evento ,evento.localizacao_evento,evento.ID_organizacao]);
         console.log(results);
-        console.log('funcionou essa porra')
         } catch (error){
             throw new Error (error);
         }
@@ -16,7 +15,7 @@ export class EventoRepository{
 
     async update(id, evento) { 
         try{
-        const [results, fields] = await connection.query('UPDATE Evento SET  nome_evento = ?, descricao_evento = ?, data_evento = ? , localizacao_evento = ? , ID_organizacao = ?  WHERE ID = ?',
+        const [results] = await connection.query('UPDATE Evento SET  nome_evento = ?, descricao_evento = ?, data_evento = ? , localizacao_evento = ? , ID_organizacao = ?  WHERE ID = ?',
         [ evento.nome_evento, evento.descricao_evento, evento.data_evento,evento.localizacao_evento,evento.ID_organizacao, id]);
         console.log(results);
         } catch(error){
@@ -25,7 +24,7 @@ export class EventoRepository{
     }
     async list(){ // retorna todas as organizacoes
         try{
-            const [results,fields] = await connection.query('SELECT * FROM Evento');
+            const [results] = await connection.query('SELECT * FROM Evento');
             return results;
         }catch(error){
             console.log(error);
@@ -35,7 +34,7 @@ export class EventoRepository{
 
     async read(id){
         try {
-            const [results, fields] = await connection.query('SELECT * FROM Evento WHERE ID = ?', [id]);
+            const [results] = await connection.query('SELECT * FROM Evento WHERE ID = ?', [id]);
             const evento = results[0];
             if(evento === undefined){
                 return null
@@ -51,8 +50,14 @@ export class EventoRepository{
 
     async delete(id){
         try{
-            const [results,fields] = await connection.query('DELETE FROM Evento WHERE ID = ?',[id]);
-            console.log(results);
+            const [results] = await connection.query('DELETE FROM Evento WHERE ID = ?',[id]);
+
+            if(results.affectedRows === 0){
+                return null;
+            }else{
+                console.log(results);
+            }
+           
         } catch(error){
             console.log(error);
         }
