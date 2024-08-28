@@ -15,15 +15,15 @@ async create(organizacao) {
 
 async update(id, organizacao) { 
     try{
-     const [results, fields] = await connection.query('UPDATE Organizacao SET cnpj = ?, responsavel = ?, nome_organizacao = ?, localizacao_organizacao = ? WHERE ID = ?',
-    [organizacao.cnpj, organizacao.responsavel, organizacao.nome_organizacao, organizacao.localizacao_organizacao, id]);
+        const [results] = await connection.query('UPDATE Organizacao SET cnpj = ?, responsavel = ?, nome_organizacao = ?, localizacao_organizacao = ? WHERE ID = ?',
+        [organizacao.cnpj, organizacao.responsavel, organizacao.nome_organizacao, organizacao.localizacao_organizacao, id]);
     } catch(error){
         console.log(error);
     }
 }
 async list(){ // retorna todas as organizacoes
     try{
-        const [results,fields] = await connection.query('SELECT * FROM Organizacao');
+        const [results] = await connection.query('SELECT * FROM Organizacao');
         return results;
     }catch(error){
         console.log(error);
@@ -33,7 +33,7 @@ async list(){ // retorna todas as organizacoes
 
 async read(id){
     try {
-        const [results, fields] = await connection.query('SELECT * FROM Organizacao WHERE ID = ?', [id]);
+        const [results] = await connection.query('SELECT * FROM Organizacao WHERE ID = ?', [id]);
         const organizacao = results[0];
         if(organizacao === undefined){
             return null;
@@ -48,7 +48,7 @@ async read(id){
 
 async readInfoOrganizacao(ID){
     try{
-        const [results, fields] = await connection.query(`
+        const [results] = await connection.query(`
     SELECT
         Organizacao.ID AS id_organizacao,
         Organizacao.cnpj,
@@ -82,8 +82,12 @@ async readInfoOrganizacao(ID){
 
 async delete(id){
     try{
-        const [results,fields] = await connection.query('DELETE FROM Organizacao WHERE ID = ?',[id]);
-        console.log(results);
+        const [results] = await connection.query('DELETE FROM Organizacao WHERE ID = ?',[id]);
+        if(results.affectedRows === 0){
+            return null;
+        }else{
+            console.log(results);
+        }
     } catch(error){
         console.log(error);
     }

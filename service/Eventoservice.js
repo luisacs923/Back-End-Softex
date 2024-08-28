@@ -74,7 +74,8 @@ export class EventoService{
             console.log('ERRO: O id não pode ser vazio!');
         } else {
             try{
-                await this.eventorepository.delete(id);
+                const resultDelete  = await this.eventorepository.delete(id);
+                return resultDelete;
             } catch(error){
                 console.log("ERRO: ", error);
             }
