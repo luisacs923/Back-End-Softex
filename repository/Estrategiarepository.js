@@ -49,8 +49,12 @@ export class EstrategiaRepository{
 
     async delete(id){
         try{
-            const [results,fields] = await connection.query('DELETE FROM Estrategia WHERE ID = ?',[id]);
-            console.log(results);
+            const [results] = await connection.query('DELETE FROM Estrategia WHERE ID = ?',[id]);
+            if(results.affectedRows === 0){
+                return null;
+            }else{
+                console.log(results);
+            }
         } catch(error){
             console.log(error);
         }
