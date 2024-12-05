@@ -8,4 +8,5 @@ export class Evento{
         this.ID_organizacao= ID_organizacao;
     }
 
-}   
+}  
+
